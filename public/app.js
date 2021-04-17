@@ -12,4 +12,35 @@ document.addEventListener('DOMContentLoaded', function() {
   messageRef.on('value', function(snapshot) {
     $output.textContent = snapshot.val()
   })
+
+  var $signin = document.querySelector('#signin')
+  var provider = new firebase.auth.GoogleAuthProvider()
+  
+  $signin.addEventListener('click', function() {
+    firebase.auth().signInWithRedirect(provider)
+  })
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    var $profile = document.querySelector('#profile')
+    if (user) {
+      $profile.innerHTML = `
+        <div>uid: ${user['uid']}</div>
+        <div>displayName: ${user['displayName']}</div>
+        <div>email: ${user['email']}</div>
+        <img src="${user['photoURL']}" width="96">
+      `
+    } else {
+      $profile.innerHTML = `
+        <p>Please sign in!</p>
+      `
+    }
+  })
+
+  var $signout = document.querySelector('#signout')
+
+  $signout.addEventListener('click', function() {
+    firebase.auth().signOut().then(function() {
+      location.reload()
+    })
+  })
 })
