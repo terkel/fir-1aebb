@@ -43,4 +43,40 @@ document.addEventListener('DOMContentLoaded', function() {
       location.reload()
     })
   })
+
+
+
+
+  var ref = db.ref('/info')
+  ref.push({
+    url: 'https://firebase.google.com/'
+  })  
+
+  
+
+
+
+
+
+
+const generateId = (idLength = 7) => {
+  let id
+  const idHeadSrc = "abcdefghijklmnopqrstuvwxyz"
+  const idBodySrc = "0123465789" + idHeadSrc
+  const getRandomCharacter = (src) => src[Math.floor(Math.random() * src.length)]
+  const generateRandomString = () => {
+    id = "" + getRandomCharacter(idHeadSrc)
+    for (let i = 0; i < idLength - 1; i++) {
+      id += getRandomCharacter(idBodySrc)
+    }
+    if (!/\d/.test(id)) {
+      generateRandomString()
+    }
+  }
+  generateRandomString()
+  return id
+}
+
+
+  document.querySelector('#id').innerHTML = generateId()
 })

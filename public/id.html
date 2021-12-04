@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Generate ID</title>
+    <style>
+      output {
+        font-family: 'Menlo', monospace;
+        line-height: 1.5;
+        display: inline-block;
+        background-color: whitesmoke;
+        color: #212121;
+        padding: 0.25em 0.5em;
+        border-radius: 0.25rem;
+      }
+    </style>
+  </head>
+  <body>
+
+    <p>
+      <output id="id"></output>
+    </p>
+
+<script>
+const generateProjectId = ({ length = 7, minNumCount = 1, maxNumCount = 3 } = {}) => {
+  let id;
+  const alpha = "bcdfghjklmnpqrstvwxz"; // Excluding aeiouy
+  const alnum = "0123456789" + alpha;
+  const getRandomCharacter = (str) => str[Math.floor(Math.random() * str.length)];
+  const generateRandomString = () => {
+    id = getRandomCharacter(alpha);
+    for (let i = 0; i < length - 1; i++) {
+      id += getRandomCharacter(alnum);
+    }
+    const numMatches = id.match(/\d/g);
+    const numCount = numMatches ? numMatches.length : 0;
+    if (numCount < minNumCount || maxNumCount < numCount) {
+      console.log(id);
+      generateRandomString();
+    }
+  }
+  generateRandomString();
+  return id;
+}
+document.querySelector('#id').innerHTML = generateProjectId();
+</script>
+
+  </body>
+</html>
